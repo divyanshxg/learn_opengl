@@ -1,10 +1,8 @@
-#include <cmath>
 #include <glew/glew.h>
 /////////////////////////
 #include <GLFW/glfw3.h>
 #include <fontconfig/fontconfig.h>
 #include <iostream>
-using namespace std;
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -19,11 +17,10 @@ void main(){
 
 const char *fragmentShaderSource = R"(#version 330 core
 out vec4 FragColor;
-uniform vec4 ourColor;
 
 void main()
 {
-    FragColor = ourColor;
+    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
 } 
 )";
 
@@ -138,7 +135,7 @@ int main() {
   // VBOs) when it's not directly necessary.
   glBindVertexArray(0);
 
-  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // GL_FILL OR GL_LINE
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_FILL OR GL_LINE
 
   while (!glfwWindowShouldClose(window)) {
     processInput(window);
@@ -147,12 +144,6 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     glUseProgram(shaderProgram);
-
-    double timeValue = glfwGetTime();
-    float greenValue = static_cast<float>(sin(timeValue) / 2.0 + 0.5);
-    int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0, 1.0f);
-
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
